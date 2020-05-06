@@ -1,0 +1,41 @@
+@import './variables';
+
+footer {
+  background-color: $violetlight;
+  border: 1px solid $violetdark;
+}
+
+.footer {
+  position: relative;
+  
+  display: flex;
+  justify-content: space-between;
+
+  &__link {
+    margin: 0 5px;
+    font-size: 18px;
+    color: $white;
+
+    & img:nth-child(1) {
+      height: 30px;
+    }
+
+    & img:nth-child(2) {
+      width: 35px;
+      height: 35px;
+    }
+
+    & img:nth-child(3) {
+      width: 28px;
+      height: 28px;
+    }
+
+    &:hover {
+      transform: scale(1.1);
+    }
+  }
+
+  &__socials {
+    display: flex;
+  }
+}

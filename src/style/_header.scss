@@ -1,0 +1,32 @@
+@import './variables';
+
+header {
+  background-color: $violetlight;
+  border: 1px solid $violetdark;
+}
+
+.header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+  &__title {
+    margin-bottom: 13px;
+    padding: 0 20px;
+    font-size: 40px;
+    font-weight: 700;
+    color: $white;
+
+    box-shadow: 0 0 50px rgba(248,	16,	77, 0.3);
+
+    &:hover {
+      color: $violetdark;
+    }
+  }
+
+  &__subtitle {
+    font-size: 18px;
+    color: $white;
+  }
+}

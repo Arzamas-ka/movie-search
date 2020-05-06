@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="icon"
+      href="../src//assets/favicon/favicon.png"
+      type="image/png"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="https://unpkg.com/swiper/css/swiper.min.css" />
+    <title>Movie Search</title>
+  </head>
+  <body>
+    <div class="backdrop"></div>
+    <header>
+      <div class="header container">
+        <a href="./index.html">
+          <h1 class="header__title">MovieSearch</h1>
+        </a>
+        <span class="header__subtitle">Find your movie</span>
+      </div>
+    </header>
+
+    <main>
+      <div class="main container">
+        <form class="search" autocomplete="off">
+          <div class="search__buttons">
+            <span class="search__icon">&#128269;</span>
+            <input
+              class="search__input"
+              type="text"
+              placeholder="Search movie"
+            />
+            <div class="search__helpers">
+              <!-- <img data-name="Spinner" class="search__spinner" src="./assets/images/spinner.gif"></img> -->
+              <span data-name="Clear" class="search__clear">&#x2715;</span>
+              <span data-name="Keyboard" class="search__keyboard"></span>
+            </div>
+          </div>
+          <button class="search__btn" type="submit">Search</button>
+        </form>
+
+        <div class="search__error">"Something went wrong"</div>
+
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-container">
+          <div class="search__spinner">
+            <img data-name="Spinner" class="search__spinner-img" src="./assets/images/spinner.gif"></img>
+          </div>
+          <ul class="swiper-wrapper"></ul>
+        </div>
+        <div class="swiper-pagination"></div>
+        <div class="swiper-button-next"></div>
+      </div>
+    </main>
+
+    <footer>
+      <div class="footer container">
+        <a class="footer__link" href="https://rs.school/">
+          <img src="./assets/images/logo-rsschool.svg" alt="rsschool" />
+        </a>
+        <div class="footer__socials">
+          <a
+            class="footer__link"
+            href="https://github.com/Arzamas-ka"
+            class="github"
+          >
+            <img src="./assets/images/github.svg" alt="github" />
+          </a>
+          <a
+            class="footer__link"
+            href="https://www.linkedin.com/in/liudmila-arzamasova/"
+            class="linkedin"
+          >
+            <img src="./assets/images/linkedin.svg" alt="linkedin" />
+          </a>
+        </div>
+      </div>
+      <div class="keyboard-wrapper"></div>
+    </footer>
+
+    <script src="https://unpkg.com/swiper/js/swiper.min.js"></script>
+  </body>
+</html>
