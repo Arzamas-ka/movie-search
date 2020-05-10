@@ -13,7 +13,6 @@ export const inputAdditionalAction = () => {
   keyboardCloseIcon.addEventListener('click', () => {
     keyboardIcon.classList.remove('search__keyboard--active');
     keyboardElem.classList.remove('keyboard--show');
-
     removeKeyboardKeysListeners();
   });
 

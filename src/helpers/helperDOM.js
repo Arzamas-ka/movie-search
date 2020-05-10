@@ -59,18 +59,27 @@ export const spinnerHide = () => {
   setTimeout(() => (spinner.style.display = 'none'), 1000);
 };
 
-export const errorShow = (myStatus) => {
+export const errorShow = (responseStatus, erroMessage) => {
+  const status = parseInt(responseStatus);
   const errorElem = findElement('.search__error');
 
-  if (myStatus >= 400 && myStatus < 451) {
+  if (erroMessage) {
+    errorElem.textContent = erroMessage;
     errorElem.style.opacity = '1';
-    errorElem.textContent = 'Oops! Too Many Requests';
+    return errorElem.textContent;
   }
 
-  if (myStatus >= 500 && myStatus < 511) {
+  if (status >= 400 && status < 451) {
+    errorElem.textContent = 'Oops! Too Many Requests';
     errorElem.style.opacity = '1';
-    errorElem.textContent = 'Server Error';
   }
+
+  if (status >= 500 && status < 511) {
+    errorElem.textContent = 'Server Error';
+    errorElem.style.opacity = '1';
+  }
+
+  return errorElem.textContent;
 };
 
 export const errorHide = () => {

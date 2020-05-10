@@ -110,6 +110,10 @@ export const keydownHandler = (event) => {
 };
 
 export const keypressHandler = (event) => {
+  if (!findElement('.keyboard--show')) {
+    return;
+  }
+
   const searchInput = document.querySelector('.search__input');
   event.preventDefault();
 

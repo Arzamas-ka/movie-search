@@ -12,6 +12,11 @@ export const createSwiper = () => {
       clickable: true,
     },
 
+    keyboard: {
+      enabled: true,
+      onlyInViewport: false,
+    },
+
     navigation: {
       nextEl: '.swiper-button-next',
       prevEl: '.swiper-button-prev',

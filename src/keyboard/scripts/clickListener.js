@@ -7,12 +7,15 @@ import { inputAdditionalAction } from '../../actions/inputAdditionalAction';
 const clickListenerKeyboard = () => {
   const searchInput = document.querySelector('.search__input');
   const keyboard = document.querySelector('.keyboard');
+  const inputElem = findElement('.search__input');
 
   let language =
     localStorage.getItem('keyboardLanguage') || valueButtons.englishLang;
 
   const functionalButtonsHandler = (event) => {
     if (!event.target.classList.contains('key-button')) return;
+
+    inputElem.focus();
 
     let button = keyboard.querySelector(
       `[data-letter='${

@@ -6,22 +6,27 @@ import {
   spinnerHide,
   errorShow,
 } from '../helpers/helperDOM';
+import { calculateTotalPages } from '../helpers/moviesHelper';
 import { translateWord } from '../helpers/translateWord';
 import { swiper } from '../render/swiper';
-import { getAdditionalInfoMovie } from '../render/getAdditionalInfoMovie';
+import { redirectToAdditionalInfoMovie } from '../render/redirectToAdditionalInfoMovie';
 import { getRating } from '../render/getRating';
-
-let prevSearchText = '';
-let prevPage = 1;
-let prevData = [];
+import {
+  getState,
+  setSearchText,
+  setMoviesData,
+  setMovies,
+  getMovies,
+  addMovies,
+} from '../state';
 
 export const inputSearchMovies = async () => {
   const searchButton = findElement('.search__btn');
 
   searchButton.addEventListener('click', async (event) => {
     event.preventDefault();
-    let searchInputValue = findElement('.search__input').value;
 
+    const searchInputValue = findElement('.search__input').value;
     const wordTranslation = await translateWord(searchInputValue);
 
     const errorElem = findElement('.search__error');
@@ -34,60 +39,65 @@ export const inputSearchMovies = async () => {
 };
 
 export const getSearchMovies = async (searchInputValue) => {
-  let myStatus;
-
-  if (searchInputValue !== prevSearchText) {
-    prevPage = 1;
-  } else {
-    prevPage += 1;
-  }
+  setSearchText(searchInputValue);
+  const { page, moviesData } = getState();
 
   try {
-    const totalPages = Math.ceil(prevData.totalResults / 10);
+    const totalPages = calculateTotalPages(moviesData);
 
-    if (totalPages && totalPages === prevPage) {
-      return [];
+    if (totalPages && totalPages === page) {
+      return;
     }
 
     spinnerShow();
 
     const response = await fetch(
-      `${STATIC_API_URL}${API_URL_TOKEN}&s=${searchInputValue}&page=${prevPage}`
+      `${STATIC_API_URL}${API_URL_TOKEN}&s=${searchInputValue}&page=${page}`
     );
-    myStatus = response.status;
+
+    if (response.status > 400) {
+      throw new Error(response.status);
+    }
 
     const data = await response.json();
-
-    const response2 = await fetch(
-      `${STATIC_API_URL}${API_URL_TOKEN}&s=${searchInputValue}&page=${
-        prevPage + 1
-      }`
-    );
-    const data2 = await response2.json();
-
-    prevData = data;
+    setMoviesData(data);
 
     if (data.Error) {
-      const errorElem = findElement('.search__error');
-      errorElem.style.opacity = '1';
-      errorElem.style.color = 'red';
-      errorElem.textContent = `${data.Error}`;
+      handleSearchError(data);
+      return;
     }
 
-    if (prevSearchText !== searchInputValue) {
+    if (page === 1) {
       removeChildren('.swiper-wrapper');
+      setMovies(data);
+    } else {
+      addMovies(data);
     }
 
-    await getRating(data);
-
-    await getRating(data2);
-  } catch (error) {
-    errorShow(myStatus);
+    const movies = getMovies();
+    await getRating(movies);
+  } catch (errStatus) {
+    errorShow(errStatus);
+    return;
   }
 
   swiper.update();
-  swiper.slideTo(0);
-  await getAdditionalInfoMovie();
 
+  if (page === 1) {
+    swiper.slideTo(0);
+  }
+
+  await redirectToAdditionalInfoMovie();
+
+  spinnerHide();
+};
+
+const handleSearchError = (data) => {
+  const errorElem = findElement('.search__error');
+  errorElem.style.opacity = '1';
+  errorElem.style.color = 'red';
+  errorElem.textContent = `${data.Error}`;
+  removeChildren('.swiper-wrapper');
+  swiper.update();
   spinnerHide();
 };

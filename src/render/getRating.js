@@ -1,13 +1,14 @@
 import { STATIC_API_URL, API_URL_TOKEN } from '../constants/constants';
 import { createElement, findElement, errorShow } from '../helpers/helperDOM';
 
-export const getRating = async (data) => {
-  let myStatus;
-
+export const getRating = async (movies) => {
   try {
-    const moviesDataRequests = data.Search.map(
-      (card) => `${STATIC_API_URL}${API_URL_TOKEN}&i=${card.imdbID}`
-    ).map((url) => fetch(url));
+    const updatedMovies =
+      movies.length > 10 ? movies.slice(movies.length - 10) : movies;
+
+    const moviesDataRequests = updatedMovies
+      .map((card) => `${STATIC_API_URL}${API_URL_TOKEN}&i=${card.imdbID}`)
+      .map((url) => fetch(url));
 
     for (const req of moviesDataRequests) {
       const movieData = await req;
@@ -28,6 +29,6 @@ export const getRating = async (data) => {
       swiperWrapper.append(li);
     }
   } catch (error) {
-    errorShow(myStatus);
+    errorShow(error);
   }
 };
